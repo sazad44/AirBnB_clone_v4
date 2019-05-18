@@ -20,5 +20,5 @@ $(document).ready(() => {
 		alert('hi')
 		//$('DIV#api_status').addClass('available');
 	    });
-	}
+	});
   });
