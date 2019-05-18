@@ -13,6 +13,10 @@ header {
 	border-bottom: 1px solid #CCCCCC;
 }
 
+.available {
+	background-color: #ff545f !important;
+}
+
 DIV#api_status {
 	float: right;
 	border-radius: 50%;
@@ -21,8 +25,4 @@ DIV#api_status {
 	margin-right: 30px;
 	margin-top: 15px;
 	background-color: #cccccc;
-}
-
-.available {
-	color: #ff545f;
 }
