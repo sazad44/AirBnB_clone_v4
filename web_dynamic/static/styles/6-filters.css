@@ -59,9 +59,10 @@
 	font-size: 14px;
 	margin: 7px 0 3px 40px;
 	overflow: hidden;
-	height: 20px;
+	height: 18px;
 	text-overflow: ellipsis;
-	width: 193px;
+	width: 300px;
+	white-space: nowrap;
 }
 
 /**
