@@ -14,11 +14,12 @@ $(document).ready(() => {
       $('div.amenities > h4').text(Object.values(amenityDict));
     }
   });
-  $(function () {
-    $.get('http://0.0.0.0:5001/api/v1/status/', function(data)
-	    {
-		alert('hi')
-		//$('DIV#api_status').addClass('available');
-	    });
-	});
-  });
+	const request = new XMLHttpRequest();
+	url = 'http://0.0.0.0:5001/api/v1/status/';
+
+	request.open('GET', url, true);
+	request.onreadystatechange = function () {
+		$('div#api_status').addClass('available');
+	}
+	request.send();
+});
