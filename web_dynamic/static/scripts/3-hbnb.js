@@ -29,16 +29,20 @@ $(document).ready(() => {
     type: 'POST',
     data: '{}',
     headers: { 'Content-Type': 'application/json' },
-    success: (data) => {
-      $.each(data, (place) => {
-	alert(data[place].name);
-        let newArticle = document.createElement('article');
-        let newDiv = document.createElement('div', {
-          'class': 'title'
-        });
-        newDiv.textContent = i.name;
-        $('section.places').appendChild(newArticle.appendChild(newDiv));
-      })
-        }
-         });
+    success: (places) => {
+      $.each(places, (i, place) => {
+        $('SECTION.places').append('<article></article>')
+        $('SECTION.places > article:last')
+          .append('<div class="title"></div>')
+          .append('<div class="information"></div>')
+        $('DIV.title:last')
+          .append('<h2>' + place.name + '</h2>')
+          .append('<div class="price_by_night">$' + place.price_by_night + '</div>')
+        $('DIV.information:last')
+          .append('<div class="max_guest"></div>')
+        $('DIV.max_guest:last')
+          .append('<i class="fa fa-users fa-3x" aria-hidden="true"></i>')
+          .append('<br />' + place.max_guest + ' Guests')
+      });
+    }});
 });
