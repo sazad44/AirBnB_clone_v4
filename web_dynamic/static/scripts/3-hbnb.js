@@ -30,17 +30,15 @@ $(document).ready(() => {
     data: '{}',
     headers: { 'Content-Type': 'application/json' },
     success: (data) => {
-      alert('hi');
-      data.forEach((i) => {
-	alert(i);
+      for (let i = 0; i < data.length; i++) {
+	alert(data[i].name);
         let newArticle = document.createElement('article');
         let newDiv = document.createElement('div', {
           'class': 'title'
         });
-	alert(data[i].attr('name'));
-        newDiv.textContent = place.name;
-        $('section').appendChild(newArticle.appendChild(newDiv));
-      });
+        newDiv.textContent = i.name;
+        $('section.places').appendChild(newArticle.appendChild(newDiv));
+      }
     }
   });
 });
