@@ -15,7 +15,6 @@ $(document).ready(() => {
     }
   });
   const request = new XMLHttpRequest();
-  // TODO: change this IP to 0.0.0.0 and figure out a way for it to work
   const url = 'http://0.0.0.0:5001/api/v1/status/';
 
   request.responseType = 'json';
