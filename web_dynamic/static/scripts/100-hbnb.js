@@ -93,10 +93,10 @@ $(document).ready(() => {
   });
 	
   let cityStateDict = {};	
-  $('.locations > .popover > li > h2 > input:checkbox').change(() => {
+  $('.locations').find('input:checkbox').change(() => {
     let cityStateString = '';
     if ($(this).is(':checked')) {
-	    $('li > h2 > input:checkbox:checked').map(function () {
+      $('input:checkbox:checked').map(function () {
         cityStateDict[$(this).attr('data-id')] = ' ' + $(this).attr('data-name');
       }).get();
       Object.values(cityStateDict).forEach((cityState) => {
@@ -106,7 +106,7 @@ $(document).ready(() => {
       $('div.locations > h4').text(cityState);
     } else {
       cityStateDict = {};
-      $('li > h2 > input:checkbox:checked').map(function () {
+      $('input:checkbox:checked').map(function () {
         cityStateDict[$(this).attr('data-id')] = $(this).attr('data-name');
       }).get();
       Object.values(cityStateDict).forEach((cityState, i) => {
