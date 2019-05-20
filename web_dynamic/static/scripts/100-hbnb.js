@@ -2,28 +2,19 @@ $(document).ready(() => {
   let amenityDict = {};
   $('.amenities > .popover > li > input:checkbox').change(() => {
     let amenityString = '';
-    if ($(this).is(':checked')) {
-      $('li > input:checkbox:checked').map(function () {
-        amenityDict[$(this).attr('data-id')] = ' ' + $(this).attr('data-name');
-      }).get();
-      Object.values(amenityDict).forEach((amenity) => {
-        amenityString += amenity;
-        amenityString += ' ';
-      });
-      $('div.amenities > h4').text(amenityString);
-    } else {
+    if (!$(this).is(':checked')) {
       amenityDict = {};
-      $('li > input:checkbox:checked').map(function () {
-        amenityDict[$(this).attr('data-id')] = $(this).attr('data-name');
-      }).get();
-      Object.values(amenityDict).forEach((amenity, i) => {
-        amenityString += amenity;
-        if (i !== Object.values(amenityDict).length - 1) {
-          amenityString += ', ';
-        }
-      });
-      $('div.amenities > h4').text(amenityString);
     }
+    $('li > input:checkbox:checked').map(function () {
+      amenityDict[$(this).attr('data-id')] = $(this).attr('data-name');
+    }).get();
+    Object.values(amenityDict).forEach((amenity, i) => {
+      amenityString += amenity;
+      if (i !== Object.values(amenityDict).length - 1) {
+        amenityString += ', ';
+      }
+    });
+    $('div.amenities > h4').text(amenityString);
   });
 
   $.ajax({
@@ -92,30 +83,54 @@ $(document).ready(() => {
     placeFilter(Object.keys(amenityDict));
   });
 
-  let cityStateDict = {};
+  let stateDict = {};
+  let cityDict = {};
+  let cityStateString = '';
   $('.locations > .popover > li > h2 > input:checkbox').change(() => {
-    let cityStateString = '';
-    if ($(this).is(':checked')) {
-      $('li > h2 > input:checkbox:checked').map(function () {
-        cityStateDict[$(this).attr('data-id')] = ' ' + $(this).attr('data-name');
-      }).get();
-      Object.values(cityStateDict).forEach((cityState) => {
-        cityStateString += cityState;
-        cityStateString += ' ';
-      });
-      $('div.locations > h4').text(cityState);
-    } else {
-      cityStateDict = {};
-      $('input:checkbox:checked').map(function () {
-        cityStateDict[$(this).attr('data-id')] = $(this).attr('data-name');
-      }).get();
-      Object.values(cityStateDict).forEach((cityState, i) => {
-        cityStateString += cityState;
-        if (i !== Object.values(cityStateDict).length - 1) {
-          cityStateString += ', ';
-        }
-      });
-      $('div.locations > h4').text(cityStateString);
+    cityStateString = '';
+    if (!$(this).is(':checked')) {
+      stateDict = {};
     }
+    $('.locations > .popover > li > h2 > input:checkbox:checked').map(function () {
+      stateDict[$(this).attr('data-id')] = $(this).attr('data-name');
+    }).get();
+    Object.values(stateDict).forEach((state, i) => {
+      cityStateString += state;
+      if (i !== Object.values(stateDict).length - 1) {
+        cityStateString += ', ';
+      }
+    });
+    Object.values(cityDict).forEach((city, i) => {
+      cityStateString += city;
+      if (i !== Object.values(cityDict).length - 1) {
+        cityStateString += ', ';
+      }
+    });
+    $('div.locations > h4').text(cityStateString);
+  });
+  $('.locations > .popover > li > ul > li > input:checkbox').change(() => {
+    cityStateString = '';
+    if (!$(this).is(':checked')) {
+      cityDict = {};
+    }
+    $('.locations > .popover > li > ul > li > input:checkbox:checked').map(function () {
+      cityDict[$(this).attr('data-id')] = $(this).attr('data-name');
+    }).get();
+    Object.values(stateDict).forEach((state, i) => {
+      cityStateString += state;
+      if (i !== Object.values(stateDict).length - 1) {
+        cityStateString += ', ';
+      }
+    });
+    if (Object.values(cityDict).length > 0) {
+      cityStateString += ', ';
+    }
+    Object.values(cityDict).forEach((city, i) => {
+      cityStateString += city;
+      if (i !== Object.values(cityDict).length - 1) {
+        cityStateString += ', ';
+      }
+    });
+    $('div.locations > h4').text(cityStateString);
   });
 });
