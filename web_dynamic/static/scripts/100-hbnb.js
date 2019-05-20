@@ -1,9 +1,9 @@
 $(document).ready(() => {
   let amenityDict = {};
-  $('.amenities > .popover > li > input:checkbox').change(() => {
+  $('.amenities').find('input:checkbox').change(() => {
     let amenityString = '';
     if ($(this).is(':checked')) {
-      $('li > input:checkbox:checked').map(function () {
+      $('.amenities').find('input:checkbox:checked').map(function () {
         amenityDict[$(this).attr('data-id')] = ' ' + $(this).attr('data-name');
       }).get();
       Object.values(amenityDict).forEach((amenity) => {
@@ -13,7 +13,7 @@ $(document).ready(() => {
       $('div.amenities > h4').text(amenityString);
     } else {
       amenityDict = {};
-      $('li > input:checkbox:checked').map(function () {
+      $('.amenities').find('input:checkbox:checked').map(function () {
         amenityDict[$(this).attr('data-id')] = $(this).attr('data-name');
       }).get();
       Object.values(amenityDict).forEach((amenity, i) => {
@@ -96,17 +96,17 @@ $(document).ready(() => {
   $('.locations').find('input:checkbox').change(() => {
     let cityStateString = '';
     if ($(this).is(':checked')) {
-      $('input:checkbox:checked').map(function () {
+      $('.locations').find('input:checkbox:checked').map(function () {
         cityStateDict[$(this).attr('data-id')] = ' ' + $(this).attr('data-name');
       }).get();
       Object.values(cityStateDict).forEach((cityState) => {
         cityStateString += cityState;
         cityStateString += ' ';
       });
-      $('div.locations > h4').text(cityState);
+      $('div.locations > h4').text(cityStateString);
     } else {
       cityStateDict = {};
-      $('input:checkbox:checked').map(function () {
+      $('.locations').find('input:checkbox:checked').map(function () {
         cityStateDict[$(this).attr('data-id')] = $(this).attr('data-name');
       }).get();
       Object.values(cityStateDict).forEach((cityState, i) => {
