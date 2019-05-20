@@ -29,10 +29,12 @@ $(document).ready(() => {
   };
   request.send();
 
+  function search_places(body='{}') {
   $.ajax({
     url: 'http://0.0.0.0:5001/api/v1/places_search/',
     type: 'POST',
     data: '{}',
+    body: body,
     contentType: 'application/json',
     dataType: 'json',
     success: function (places) {
@@ -44,5 +46,11 @@ $(document).ready(() => {
         $('SECTION.places > article:last > div.description').append('<div class="description">' + place.description + '</div>');
       });
     }
+  });
+  }
+  search_places();
+  
+  $('BUTTON').click(function () {
+	  search_places({"amenities": Object.keys(amenityDict)});
   });
 });
