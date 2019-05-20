@@ -91,12 +91,12 @@ $(document).ready(() => {
   $('button').click(() => {
     placeFilter(Object.keys(amenityDict));
   });
-	
-  let cityStateDict = {};	
-  $('.locations').find('input:checkbox').change(() => {
+
+  let cityStateDict = {};
+  $('.locations > .popover > li > h2 > input:checkbox').change(() => {
     let cityStateString = '';
     if ($(this).is(':checked')) {
-      $('input:checkbox:checked').map(function () {
+      $('li > h2 > input:checkbox:checked').map(function () {
         cityStateDict[$(this).attr('data-id')] = ' ' + $(this).attr('data-name');
       }).get();
       Object.values(cityStateDict).forEach((cityState) => {
