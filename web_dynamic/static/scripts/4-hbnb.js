@@ -15,7 +15,7 @@ $(document).ready(() => {
     }
   });
 
-  const request = new XMLHttpRequest();
+  let request = new XMLHttpRequest();
   const url = 'http://0.0.0.0:5001/api/v1/status/';
 
   request.responseType = 'json';
@@ -29,28 +29,58 @@ $(document).ready(() => {
   };
   request.send();
 
-  function search_places(body='{}') {
+  let userNames = [];
+
   $.ajax({
-    url: 'http://0.0.0.0:5001/api/v1/places_search/',
-    type: 'POST',
-    data: '{}',
-    body: body,
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function (places) {
-      $.each(places, function (i, place) {
-        $('SECTION.places').append('<article></article>');
-        $('SECTION.places > article:last').append('<div class="title"></div>').append('<div class="information"></div>').append('<div class="description"></div>');
-        $('SECTION.places > article:last > div.title').append('<h2>' + place.name + '</h2>').append('<div class="price_by_night">' + place.price_by_night + '</div>');
-        $('SECTION.places > article:last > div.information').append('<div class="max_guest"><i class="fa fa-users fa-3x" aria-hidden="true"></i><br />' + place.max_guest + ' Guests</div>').append('<div class="number_rooms"><i class="fa fa-bed fa-3x" aria-hidden="true"></i><br />' + place.number_rooms + ' Bedrooms</div>').append('<div class="number_bathrooms"><i class="fa fa-bath fa-3x" aria-hidden="true"></i><br />' + place.number_bathrooms + ' Bathroom</div>');
-        $('SECTION.places > article:last > div.description').append('<div class="description">' + place.description + '</div>');
+    url: 'http://0.0.0.0:5001/api/v1/users/',
+    success: (users) => {
+      $.each(users, function (i, user) {
+        userNames[user['id']] = user['first_name'] + ' ' + user['last_name'];
       });
     }
   });
-  }
-  search_places();
-  
-  $('BUTTON').click(function () {
-	  search_places({"amenities": Object.keys(amenityDict)});
+
+  function placeFilter (amenityIds) {
+    $.ajax({
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      type: 'POST',
+      data: JSON.stringify({'amenities': amenityIds}),
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function (places) {
+        $('SECTION.places').empty();
+        $('SECTION.places').append('<h1>Places</h1>');
+        $.each(places, function (i, place) {
+          $('SECTION.places').append('<article></article>');
+          $('SECTION.places > article:last')
+            .append('<div class="title"></div>')
+            .append('<div class="information"></div>')
+            .append('<div class="user"></div>')
+            .append('<div class="description"></div>');
+          $('DIV.title:last')
+            .append('<h2>' + place.name + '</h2>')
+            .append('<div class="price_by_night">$' + place.price_by_night + '</div>');
+          $('DIV.information:last')
+            .append('<div class="max_guest"></div>')
+            .append('<div class="number_rooms"></div>')
+            .append('<div class="number_bathrooms"></div>');
+          $('DIV.user:last')
+            .append('<strong>Owner:</strong> ' + userNames[place.user_id]);
+          $('DIV.max_guest:last')
+            .append('<i class="fa fa-users fa-3x" aria-hidden="true"></i><br />' + place.max_guest + ' Guests');
+          $('DIV.number_rooms:last')
+            .append('<i class="fa fa-bed fa-3x" aria-hidden="true"></i><br />' + place.number_rooms + ' Bedrooms');
+          $('DIV.number_bathrooms:last')
+            .append('<i class="fa fa-bath fa-3x" aria-hidden="true"></i><br />' + place.number_bathrooms + ' Bathroom');
+          $('SECTION.places > article:last > div.description').append('<div class="description">' + place.description + '</div>');
+        });
+      }
+    });
+  };
+
+placeFilter(Object.keys(amenityDict));
+
+  $('button').click(() => {
+    placeFilter(Object.keys(amenityDict));
   });
 });
