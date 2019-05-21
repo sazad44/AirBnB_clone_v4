@@ -47,9 +47,16 @@ $(document).ready(() => {
       contentType: 'application/json',
       dataType: 'json',
       success: function (places) {
+        alert(places);
         $('SECTION.places').empty();
         $('SECTION.places').append('<h1>Places</h1>');
         $.each(places, function (i, place) {
+          $.ajax({
+            url: 'http://0.0.0.0:5001/api/v1/places/' + place.id + '/reviews',
+            success: (reviews) => {
+              let reviewList = reviews;
+            }
+          });
           $('SECTION.places').append('<article></article>');
           $('SECTION.places > article:last')
             .append('<div class="title"></div>')
@@ -72,21 +79,20 @@ $(document).ready(() => {
             .append('<i class="fa fa-bath fa-3x" aria-hidden="true"></i><br />' + place.number_bathrooms + ' Bathroom');
           $('DIV.user:last')
             .append('<strong>Owner:</strong> ' + userNames[place.user_id]);
-          $('DIV.description').append('<div class="description">' + place.description + '</div>');
-	  $('DIV.reviews')
-	    .append('<h2>Reviews</h2><span>show</span>')
-	    .append('<ul></ul>');
-	  $.ajax({
-	    url: 'http://0.0.0.0:5001/places/' + place.id + '/reviews/',
-	    success: (reviews) => {
-	      $.each(reviews, (review) => {
-		$('DIV.reviews ul:last').append('<li></li>');
-		$('DIV.reviews ul li:last')
-		  .append('<h3>' + review.title + '</h3>')
-		  .append('<p>' + review.content + '</p>');
-	      });
-	    }
+          $('DIV.description:last').append('<div class="description">' + place.description + '</div>');
+	  $('DIV.reviews:last')
+	    .append('<h2>Reviews</h2>')
+            .append('<span>show</span>')
+	    .append('<ul></ul>')
+	  $.each(reviewList, function (i, review) {
+            if (review['place_id'] === place.id) {
+	      $('DIV.reviews > ul').append('<li></li>');
+	      $('DIV.reviews > ul > li:last')
+	        .append('<h3>From ' + userNames[review['user_id']] + ' the ' + review['created_at'] + '</h3>')
+	        .append('<p>' + review['text'] + '</p>');
+            }
 	  });
+          $('DIV.reviews > ul:last').css('visibility', 'hidden');
         });
       }
     });
@@ -95,10 +101,11 @@ $(document).ready(() => {
   let show = 0;
   $('span').click(() => {
     if (show === 0) {
-      $('DIV.reviews > ul > li').attr('display', 'auto');
+      $('DIV.reviews > span').text('hide');
+      $('DIV.reviews > ul').css('visibility', 'visible');
       show = 1;
     } else {
-      $('DIV.reviews > ul > li').attr('display', 'hidden');
+      $('DIV.reviews > ul').css('visibility', 'hidden');
     }
   });
 

@@ -105,7 +105,8 @@ div .reviews {
 
 div .reviews h2 {
     font-size: 16px;
-    border-bottom: #DDDDDD 1px;
+    border-bottom: #DDDDDD solid 1px;
+    float: left;
 }
 
 div .reviews ul {
