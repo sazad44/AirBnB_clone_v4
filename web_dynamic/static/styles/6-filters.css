@@ -61,7 +61,7 @@
 	overflow: hidden;
 	height: 18px;
 	text-overflow: ellipsis;
-	width: 300px;
+	max-width: 215px;
 	white-space: nowrap;
 }
 
