@@ -1,6 +1,6 @@
 $(document).ready(() => {
   let amenityDict = {};
-  $('.amenities > .popover > li > input:checkbox').change(() => {
+  $('.amenities').find('input:checkbox').change(() => {
     let amenityString = '';
     if (!$(this).is(':checked')) {
       amenityDict = {};
