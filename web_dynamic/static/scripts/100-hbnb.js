@@ -5,7 +5,7 @@ $(document).ready(() => {
     if (!$(this).is(':checked')) {
       amenityDict = {};
     }
-    $('li > input:checkbox:checked').map(function () {
+    $('ul.popover > li > input:checkbox:checked').map(function () {
       amenityDict[$(this).attr('data-id')] = $(this).attr('data-name');
     }).get();
     Object.values(amenityDict).forEach((amenity, i) => {
@@ -39,11 +39,11 @@ $(document).ready(() => {
     }
   });
 
-  function placeFilter (amenityIds) {
+  function placeFilter (data) {
     $.ajax({
       url: 'http://0.0.0.0:5001/api/v1/places_search/',
       type: 'POST',
-      data: JSON.stringify({'amenities': amenityIds}),
+      data: JSON.stringify(data),
       contentType: 'application/json',
       dataType: 'json',
       success: function (places) {
@@ -77,10 +77,9 @@ $(document).ready(() => {
     });
   };
 
-  placeFilter(Object.keys(amenityDict));
 
   $('button').click(() => {
-    placeFilter(Object.keys(amenityDict));
+    placeFilter({'amenities': Object.keys(amenityDict), 'states': Object.keys(stateDict), 'cities': Object.keys(cityDict)});
   });
 
   let stateDict = {};
@@ -100,13 +99,16 @@ $(document).ready(() => {
         cityStateString += ', ';
       }
     });
+    if (Object.values(cityDict).length > 0 && Object.values(stateDict).length > 0) {
+      cityStateString += ', ';
+    };
     Object.values(cityDict).forEach((city, i) => {
       cityStateString += city;
       if (i !== Object.values(cityDict).length - 1) {
         cityStateString += ', ';
       }
     });
-    $('div.locations > h4').text(cityStateString);
+    $('div.locations h4').text(cityStateString);
   });
   $('.locations > .popover > li > ul > li > input:checkbox').change(() => {
     cityStateString = '';
@@ -122,7 +124,7 @@ $(document).ready(() => {
         cityStateString += ', ';
       }
     });
-    if (Object.values(cityDict).length > 0) {
+    if (Object.values(cityDict).length > 0 && Object.values(stateDict).length > 0) {
       cityStateString += ', ';
     }
     Object.values(cityDict).forEach((city, i) => {
@@ -131,6 +133,6 @@ $(document).ready(() => {
         cityStateString += ', ';
       }
     });
-    $('div.locations > h4').text(cityStateString);
+    $('div.locations h4').text(cityStateString);
   });
 });
