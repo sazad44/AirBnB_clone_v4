@@ -87,8 +87,4 @@ $(document).ready(() => {
   };
 
   placeFilter(Object.keys(amenityDict));
-
-  $('button').click(() => {
-    placeFilter(Object.keys(amenityDict));
-  });
 });

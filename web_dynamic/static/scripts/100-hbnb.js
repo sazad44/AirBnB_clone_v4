@@ -78,9 +78,6 @@ $(document).ready(() => {
   };
 
 
-  $('button').click(() => {
-    placeFilter({'amenities': Object.keys(amenityDict), 'states': Object.keys(stateDict), 'cities': Object.keys(cityDict)});
-  });
 
   let stateDict = {};
   let cityDict = {};
@@ -134,5 +131,10 @@ $(document).ready(() => {
       }
     });
     $('div.locations h4').text(cityStateString);
+  });
+  placeFilter({'amenities': Object.keys(amenityDict), 'states': Object.keys(stateDict), 'cities': Object.keys(cityDict)});
+
+  $('button').click(() => {
+    placeFilter({'amenities': Object.keys(amenityDict), 'states': Object.keys(stateDict), 'cities': Object.keys(cityDict)});
   });
 });
