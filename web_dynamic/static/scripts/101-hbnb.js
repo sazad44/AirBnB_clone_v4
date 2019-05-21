@@ -23,8 +23,8 @@ $(document).ready(() => {
       if (status.status === 'OK') {
         $('div#api_status').addClass('available');
       } else {
+        alert('OWWWWW');)
         $('div#api_status').removeClass('available');
-      }
     }
   });
 
@@ -47,16 +47,9 @@ $(document).ready(() => {
       contentType: 'application/json',
       dataType: 'json',
       success: function (places) {
-        alert(places);
         $('SECTION.places').empty();
         $('SECTION.places').append('<h1>Places</h1>');
         $.each(places, function (i, place) {
-          $.ajax({
-            url: 'http://0.0.0.0:5001/api/v1/places/' + place.id + '/reviews',
-            success: (reviews) => {
-              let reviewList = reviews;
-            }
-          });
           $('SECTION.places').append('<article></article>');
           $('SECTION.places > article:last')
             .append('<div class="title"></div>')
@@ -84,19 +77,26 @@ $(document).ready(() => {
 	    .append('<h2>Reviews</h2>')
             .append('<span>show</span>')
 	    .append('<ul></ul>')
-	  $.each(reviewList, function (i, review) {
+	});
+        $('DIV.reviews > ul:last').css('visibility', 'hidden');
+      };
+    });
+  };
+
+/*          $.ajax({
+            url: 'http://0.0.0.0:5001/api/v1/places/' + place.id + '/reviews',
+            success: (reviews) => {
+              let reviewList = reviews;
+            }
+          });
+          $.each(reviewList, function (i, review) {
             if (review['place_id'] === place.id) {
-	      $('DIV.reviews > ul').append('<li></li>');
-	      $('DIV.reviews > ul > li:last')
+              $('DIV.reviews > ul:last').append('<li></li>');
+              $('DIV.reviews > ul:last > li:last')
 	        .append('<h3>From ' + userNames[review['user_id']] + ' the ' + review['created_at'] + '</h3>')
 	        .append('<p>' + review['text'] + '</p>');
             }
-	  });
-          $('DIV.reviews > ul:last').css('visibility', 'hidden');
-        });
-      }
-    });
-  };
+          });*/
 
   let show = 0;
   $('span').click(() => {
